@@ -2,19 +2,48 @@ pipeline {
   agent any
   stages {
     stage('test') {
-      steps {
-        junit(testResults: 'reports/**/*.xml', allowEmptyResults: true, healthScaleFactor: 1, keepLongStdio: true)
-      }
+      parallel {
+        stage('test') {
+          steps {
+            junit(testResults: 'reports/**/*.xml', allowEmptyResults: true, healthScaleFactor: 1, keepLongStdio: true)
+          }
+        }
+        stage('maven') {
+          steps {
+            sh '''pipeline {
+    agent any
+
+    stages {
+        stage(\'Build\') {
+            steps {
+                echo \'Building..\'
+            }
+        }
+        stage(\'Test\') {
+            steps {
+                echo \'Testing..\'
+            }
+        }
+        stage(\'Deploy\') {
+            steps {
+                echo \'Deploying....\'
+            }
+        }
     }
-    stage('build') {
-      steps {
-        cleanWs(cleanWhenAborted: true)
+}'''
+            }
+          }
+        }
       }
-    }
-    stage('deploy') {
-      steps {
-        validateDeclarativePipeline 'C:\\Users\\Reddy\\Documents\\Bluetooth Folder\\thumbs'
+      stage('build') {
+        steps {
+          cleanWs(cleanWhenAborted: true)
+        }
+      }
+      stage('deploy') {
+        steps {
+          validateDeclarativePipeline 'C:\\Users\\Reddy\\Documents\\Bluetooth Folder\\thumbs'
+        }
       }
     }
   }
-}
