@@ -11,5 +11,10 @@ pipeline {
         cleanWs(cleanWhenAborted: true)
       }
     }
+    stage('deploy') {
+      steps {
+        validateDeclarativePipeline 'C:\\Users\\Reddy\\Documents\\Bluetooth Folder\\thumbs'
+      }
+    }
   }
 }
