@@ -35,6 +35,7 @@ pipeline {
           }
         }
       }
+<<<<<<< HEAD
       stage('build') {
         steps {
           cleanWs(cleanWhenAborted: true)
@@ -47,3 +48,8 @@ pipeline {
       }
     }
   }
+=======
+    }
+  }
+}
+>>>>>>> parent of 8088941... adsfh
